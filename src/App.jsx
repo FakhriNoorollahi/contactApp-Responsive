@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ContactsHeader from "./components/contactsHeader/ContactsHeader";
+import ContactsList from "./components/contactsContent/ContactsList";
 
 function App() {
   const [search, setSearch] = useState("");
@@ -23,6 +24,7 @@ function App() {
             addHandler={addHandler}
             deleteHandler={deleteHandler}
           />
+          <ContactsList />
         </div>
       </div>
     </div>

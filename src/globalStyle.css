@@ -23,6 +23,10 @@ button {
   background-color: unset;
 }
 
+ul {
+  list-style: none;
+}
+
 .container {
   width: 800px;
 }

@@ -1,0 +1,74 @@
+.tableContainer {
+  margin-top: 1em;
+  padding: 1em;
+  background-color: white;
+  border-radius: 0.5em;
+  height: 280px;
+  overflow-y: scroll;
+}
+
+.table {
+  border: 0;
+  border-collapse: collapse;
+  width: 100%;
+  position: relative;
+}
+
+.table td {
+  text-align: center;
+  padding: 0.5em;
+}
+
+.table td:first-child {
+  border-top-left-radius: 0.5em;
+  border-bottom-left-radius: 0.5em;
+}
+
+.table td:last-child {
+  border-top-right-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
+}
+
+.table thead {
+  position: sticky;
+  z-index: 20;
+  top: 0;
+}
+
+.table thead tr th {
+  padding: 0.5em 0 1.5em;
+  color: #0080fc;
+}
+
+.table tbody tr td {
+  padding: 1em;
+}
+
+.table tbody tr:nth-child(odd) {
+  background-color: rgb(237, 237, 243);
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.5em;
+}
+
+.table td button {
+  font-size: 1.2em;
+  font-weight: 500;
+}
+
+.tableContainer::-webkit-scrollbar {
+  width: 12px;
+}
+
+.tableContainer::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+.tableContainer::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
