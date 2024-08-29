@@ -8,14 +8,20 @@ function App() {
     JSON.parse(localStorage.getItem("contacts")) || []
   );
 
-  const deleteHandler = (e) => {
-    console.log(e.target);
+  const handleDeleteContact = (id) => {
+    const newContacts = contacts.filter((c) => +c.id !== +id);
+
+    localStorage.setItem("contacts", JSON.stringify(newContacts));
+    setContacts(newContacts);
   };
 
   const addNewContactHandler = (data) => {
-    const newContacts = [...contacts, data];
-    console.log(newContacts);
+    console.log(data.createdAt, data.name);
 
+    const { id } = data;
+    const find = contacts.filter((c) => +c.id !== +id);
+    const newContacts = [...find, data];
+    newContacts.sort((a, b) => a.createdAt - b.createdAt);
     setContacts(newContacts);
     localStorage.setItem("contacts", JSON.stringify(newContacts));
   };
@@ -28,10 +34,14 @@ function App() {
           <ContactsHeader
             search={search}
             setSearch={setSearch}
-            deleteHandler={deleteHandler}
             addNewContactHandler={addNewContactHandler}
           />
-          <ContactsList contacts={contacts} search={search} />
+          <ContactsList
+            contacts={contacts}
+            search={search}
+            handleDeleteContact={handleDeleteContact}
+            addNewContactHandler={addNewContactHandler}
+          />
         </div>
       </div>
     </div>

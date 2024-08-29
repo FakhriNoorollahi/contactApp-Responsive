@@ -3,15 +3,17 @@ import Input from "../../ui/Input";
 import inputs from "../constans/inputData";
 import styles from "./addNewContacts.module.css";
 
-function AddNewContacts({ addNewContactHandler, onClose }) {
-  const [contactData, setContactData] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    address: "",
-    job: "",
-    id: "",
-  });
+function AddNewContacts({ addNewContactHandler, onClose, userData = null }) {
+  const [contactData, setContactData] = useState(
+    userData || {
+      name: "",
+      phone: "",
+      email: "",
+      address: "",
+      job: "",
+      id: "",
+    }
+  );
 
   const [isError, setIsError] = useState({
     name: false,
@@ -24,7 +26,8 @@ function AddNewContacts({ addNewContactHandler, onClose }) {
     setContactData((data) => ({
       ...data,
       [title]: value,
-      id: new Date().getTime(),
+      id: userData?.id || new Date().getTime(),
+      createdAt: userData?.createdAt || new Date().getTime(),
     }));
   };
 

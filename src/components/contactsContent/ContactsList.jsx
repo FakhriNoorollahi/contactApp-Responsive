@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./contactsList.module.css";
 import { CiEdit, CiRead, CiTrash } from "react-icons/ci";
+import DeleteModal from "../DeleteModal/DeleteModal";
+import AddNewContacts from "../AddNewContacts/AddNewContacts";
+import EditModal from "../EditModal/EditModal";
 
-function ContactsList({ contacts, search }) {
+function ContactsList({
+  contacts,
+  search,
+  handleDeleteContact,
+  addNewContactHandler,
+  delGroup,
+  handleChecked,
+}) {
   const contactsAll = contacts.filter(
     (c) =>
       c.name.toLowerCase().includes(search.trim().toLowerCase()) ||
@@ -26,7 +36,15 @@ function ContactsList({ contacts, search }) {
           </thead>
           <tbody>
             {contactsAll.map((contact, index) => (
-              <ContactItem key={contact.id} contact={contact} index={index} />
+              <ContactItem
+                key={contact.id}
+                contact={contact}
+                index={index}
+                handleDeleteContact={handleDeleteContact}
+                addNewContactHandler={addNewContactHandler}
+                delGroup={delGroup}
+                handleChecked={handleChecked}
+              />
             ))}
           </tbody>
         </table>
@@ -37,11 +55,20 @@ function ContactsList({ contacts, search }) {
 
 export default ContactsList;
 
-function ContactItem({ contact, index }) {
-  const { name, email, phone } = contact;
+function ContactItem({
+  contact,
+  index,
+  handleDeleteContact,
+  addNewContactHandler,
+}) {
+  const [openDelete, setOpenDelete] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+
+  const { name, email, phone, id } = contact;
+
   return (
     <tr>
-      <td>{index}</td>
+      <td>{index + 1}</td>
       <td>
         <span></span>
         <span>{name.substring(0, 8)}</span>
@@ -55,12 +82,26 @@ function ContactItem({ contact, index }) {
       </td>
       <td>
         <div className={styles.buttons}>
-          <button>
+          <button onClick={() => setOpenDelete(true)}>
             <CiTrash />
           </button>
-          <button>
+          {openDelete && (
+            <DeleteModal
+              onClose={() => setOpenDelete(false)}
+              handleDeleteContact={handleDeleteContact}
+              id={id}
+            />
+          )}
+          <button onClick={() => setOpenEdit(true)}>
             <CiEdit />
           </button>
+          {openEdit && (
+            <EditModal
+              contact={contact}
+              onClose={() => setOpenEdit(false)}
+              addNewContactHandler={addNewContactHandler}
+            />
+          )}
         </div>
       </td>
     </tr>

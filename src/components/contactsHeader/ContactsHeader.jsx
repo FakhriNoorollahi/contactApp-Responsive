@@ -4,12 +4,7 @@ import { CiSearch } from "react-icons/ci";
 import AddNewContacts from "../AddNewContacts/AddNewContacts";
 import Modal from "../modal/Modal";
 
-function ContactsHeader({
-  search,
-  setSearch,
-  deleteHandler,
-  addNewContactHandler,
-}) {
+function ContactsHeader({ search, setSearch, addNewContactHandler }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -35,9 +30,7 @@ function ContactsHeader({
             />
           </Modal>
         )}
-        <button onClick={deleteHandler} className={styles.button}>
-          Group deletion
-        </button>
+        <button className={styles.button}>Group deletion</button>
       </div>
     </div>
   );
