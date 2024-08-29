@@ -2,7 +2,13 @@ import React from "react";
 import styles from "./contactsList.module.css";
 import { CiEdit, CiRead, CiTrash } from "react-icons/ci";
 
-function ContactsList() {
+function ContactsList({ contacts, search }) {
+  const contactsAll = contacts.filter(
+    (c) =>
+      c.name.toLowerCase().includes(search.trim().toLowerCase()) ||
+      c.email.toLowerCase().includes(search.trim().toLowerCase())
+  );
+
   return (
     <div>
       <h3>Contact List (3)</h3>
@@ -19,150 +25,9 @@ function ContactsList() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>
-                <span></span>
-                <span>jhon star</span>
-              </td>
-              <td>258526943</td>
-              <td>sdfghj@jdf</td>
-              <td>
-                <button>
-                  <CiRead />
-                </button>
-              </td>
-              <td>
-                <div className={styles.buttons}>
-                  <button>
-                    <CiTrash />
-                  </button>
-                  <button>
-                    <CiEdit />
-                  </button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>
-                <span></span>
-                <span>jhon star</span>
-              </td>
-              <td>258526943</td>
-              <td>sdfghj@jdf</td>
-              <td>
-                <button>
-                  <CiRead />
-                </button>
-              </td>
-              <td>
-                <div className={styles.buttons}>
-                  <button>
-                    <CiTrash />
-                  </button>
-                  <button>
-                    <CiEdit />
-                  </button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>
-                <span></span>
-                <span>jhon star</span>
-              </td>
-              <td>258526943</td>
-              <td>sdfghj@jdf</td>
-              <td>
-                <button>
-                  <CiRead />
-                </button>
-              </td>
-              <td>
-                <div className={styles.buttons}>
-                  <button>
-                    <CiTrash />
-                  </button>
-                  <button>
-                    <CiEdit />
-                  </button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>
-                <span></span>
-                <span>jhon star</span>
-              </td>
-              <td>258526943</td>
-              <td>sdfghj@jdf</td>
-              <td>
-                <button>
-                  <CiRead />
-                </button>
-              </td>
-              <td>
-                <div className={styles.buttons}>
-                  <button>
-                    <CiTrash />
-                  </button>
-                  <button>
-                    <CiEdit />
-                  </button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>
-                <span></span>
-                <span>jhon star</span>
-              </td>
-              <td>258526943</td>
-              <td>sdfghj@jdf</td>
-              <td>
-                <button>
-                  <CiRead />
-                </button>
-              </td>
-              <td>
-                <div className={styles.buttons}>
-                  <button>
-                    <CiTrash />
-                  </button>
-                  <button>
-                    <CiEdit />
-                  </button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>
-                <span></span>
-                <span>jhon star</span>
-              </td>
-              <td>258526943</td>
-              <td>sdfghj@jdf</td>
-              <td>
-                <button>
-                  <CiRead />
-                </button>
-              </td>
-              <td>
-                <div className={styles.buttons}>
-                  <button>
-                    <CiTrash />
-                  </button>
-                  <button>
-                    <CiEdit />
-                  </button>
-                </div>
-              </td>
-            </tr>
+            {contactsAll.map((contact, index) => (
+              <ContactItem key={contact.id} contact={contact} index={index} />
+            ))}
           </tbody>
         </table>
       </div>
@@ -171,3 +36,33 @@ function ContactsList() {
 }
 
 export default ContactsList;
+
+function ContactItem({ contact, index }) {
+  const { name, email, phone } = contact;
+  return (
+    <tr>
+      <td>{index}</td>
+      <td>
+        <span></span>
+        <span>{name.substring(0, 8)}</span>
+      </td>
+      <td>{phone ? phone : "➖"}</td>
+      <td>{email.substring(0, 8)}</td>
+      <td>
+        <button>
+          <CiRead />
+        </button>
+      </td>
+      <td>
+        <div className={styles.buttons}>
+          <button>
+            <CiTrash />
+          </button>
+          <button>
+            <CiEdit />
+          </button>
+        </div>
+      </td>
+    </tr>
+  );
+}

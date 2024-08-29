@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./contactsHeader.module.css";
 import { CiSearch } from "react-icons/ci";
+import AddNewContacts from "../AddNewContacts/AddNewContacts";
+import Modal from "../modal/Modal";
 
-function ContactsHeader({ search, setSearch, addHandler, deleteHandler }) {
+function ContactsHeader({
+  search,
+  setSearch,
+  deleteHandler,
+  addNewContactHandler,
+}) {
+  const [open, setOpen] = useState(false);
+
   return (
     <div className={styles.header}>
       <div className={styles.search}>
@@ -15,8 +24,20 @@ function ContactsHeader({ search, setSearch, addHandler, deleteHandler }) {
         />
       </div>
       <div className={styles.buttons}>
-        <button onClick={addHandler}>Add New</button>
-        <button onClick={deleteHandler}>Group deletion</button>
+        <button onClick={() => setOpen(true)} className={styles.button}>
+          Add New
+        </button>
+        {open && (
+          <Modal onClose={() => setOpen(false)}>
+            <AddNewContacts
+              onClose={() => setOpen(false)}
+              addNewContactHandler={addNewContactHandler}
+            />
+          </Modal>
+        )}
+        <button onClick={deleteHandler} className={styles.button}>
+          Group deletion
+        </button>
       </div>
     </div>
   );

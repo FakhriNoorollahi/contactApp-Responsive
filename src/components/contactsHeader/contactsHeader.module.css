@@ -33,7 +33,7 @@
   gap: 0.5em;
 }
 
-.buttons button {
+.buttons .button {
   padding: 0.3em 1em;
   border-radius: 1.3em;
   border: 1px solid #0080fc;

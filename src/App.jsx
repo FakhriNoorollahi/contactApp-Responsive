@@ -4,13 +4,20 @@ import ContactsList from "./components/contactsContent/ContactsList";
 
 function App() {
   const [search, setSearch] = useState("");
-
-  const addHandler = (e) => {
-    console.log(e.target);
-  };
+  const [contacts, setContacts] = useState(
+    JSON.parse(localStorage.getItem("contacts")) || []
+  );
 
   const deleteHandler = (e) => {
     console.log(e.target);
+  };
+
+  const addNewContactHandler = (data) => {
+    const newContacts = [...contacts, data];
+    console.log(newContacts);
+
+    setContacts(newContacts);
+    localStorage.setItem("contacts", JSON.stringify(newContacts));
   };
 
   return (
@@ -21,10 +28,10 @@ function App() {
           <ContactsHeader
             search={search}
             setSearch={setSearch}
-            addHandler={addHandler}
             deleteHandler={deleteHandler}
+            addNewContactHandler={addNewContactHandler}
           />
-          <ContactsList />
+          <ContactsList contacts={contacts} search={search} />
         </div>
       </div>
     </div>
