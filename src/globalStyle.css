@@ -1,0 +1,41 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  padding: 3em 0;
+  margin: 0 auto;
+  background-color: aliceblue;
+  display: flex;
+  justify-content: center;
+}
+
+input {
+  border: 0;
+  outline: none;
+}
+
+button {
+  border: 0;
+  cursor: pointer;
+  background-color: unset;
+}
+
+.container {
+  width: 800px;
+}
+.contacts-box {
+  background-color: #0080fc;
+  padding: 0.5em 0 0.5em 2em;
+  margin-top: 2em;
+  border-radius: 0.7em;
+}
+
+.contacts-container {
+  background-color: rgb(238, 235, 235);
+  padding: 1em 2em;
+  border-top-left-radius: 0.9em;
+  border-bottom-left-radius: 0.9em;
+}
