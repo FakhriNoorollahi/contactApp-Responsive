@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import styles from "./contactsList.module.css";
 import { CiEdit, CiRead, CiTrash } from "react-icons/ci";
-import DeleteModal from "../DeleteModal/DeleteModal";
 import AddNewContacts from "../AddNewContacts/AddNewContacts";
-import EditModal from "../EditModal/EditModal";
+import Modal from "../modal/Modal";
 
 function ContactsList({
   contacts,
@@ -76,30 +75,47 @@ function ContactItem({
       <td>{phone ? phone : "➖"}</td>
       <td>{email.substring(0, 8)}</td>
       <td>
-        <button>
+        <button className={styles.buttonItem}>
           <CiRead />
         </button>
       </td>
       <td>
         <div className={styles.buttons}>
-          <button onClick={() => setOpenDelete(true)}>
+          <button
+            className={styles.buttonItem}
+            onClick={() => setOpenDelete(true)}
+          >
             <CiTrash />
           </button>
           {openDelete && (
-            <DeleteModal
+            <Modal
               onClose={() => setOpenDelete(false)}
-              handleDeleteContact={handleDeleteContact}
-              id={id}
-            />
+              open={openDelete}
+              onConfirm={() => {
+                handleDeleteContact(id);
+                () => setOpenDelete(false);
+              }}
+              text="Delete"
+              title={`Delete contact ${name}`}
+            >
+              Do you want to remove this contact?
+            </Modal>
           )}
-          <button onClick={() => setOpenEdit(true)}>
+          <button
+            className={styles.buttonItem}
+            onClick={() => setOpenEdit(true)}
+          >
             <CiEdit />
           </button>
           {openEdit && (
-            <EditModal
-              contact={contact}
-              onClose={() => setOpenEdit(false)}
+            <AddNewContacts
+              userData={contact}
               addNewContactHandler={addNewContactHandler}
+              onClose={() => setOpenEdit(false)}
+              text="Edit"
+              open={openEdit}
+              setOpen={setOpenEdit}
+              title={`Edite contact ${name}`}
             />
           )}
         </div>

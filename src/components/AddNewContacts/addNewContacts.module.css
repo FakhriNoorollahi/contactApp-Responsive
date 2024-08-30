@@ -1,12 +1,5 @@
-.modalBtns {
+.inputsContainer {
   display: flex;
+  flex-direction: column;
   gap: 1em;
-}
-
-.modalBtns button {
-  display: inline-block;
-  padding: 0.7em;
-  flex: 1;
-  border-radius: 0.5em;
-  background-color: salmon;
 }

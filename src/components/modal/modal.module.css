@@ -1,27 +1,83 @@
+.bakdrop {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(5px) grayscale(50%);
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
 .modal {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 600px;
-  background-color: darkgoldenrod;
-  padding: 1em 2em;
+  width: 400px;
+  background-color: #fefefe;
   z-index: 100;
-  border-radius: 1em;
+  border-radius: 0.3em;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 1s ease;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  animation: animate 0.4s;
 }
 
-.modalHeader {
+@keyframes animate {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modalHeader,
+.modalFooter {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2em;
+  /* margin-bottom: 1em; */
+  background-color: rgb(241, 238, 238);
+  padding: 1em 1.5em;
+}
+
+.modalHeader p {
+  font-size: 1.3em;
+  font-weight: 600;
 }
 
 .modalHeader button {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1em;
-  background-color: rgb(221, 214, 213);
-  border-radius: 0.2em;
+  font-size: 1.3em;
+}
+
+.modalContent {
+  padding: 2em 1.5em;
+}
+
+.modalFooter {
+  margin-bottom: 0;
+  gap: 1em;
+}
+
+.modalFooter button {
+  flex: 1;
+  padding: 0.7em;
+  border-radius: 0.3em;
+}
+
+.confirm {
+  background-color: #7f56d9;
+  color: #fefefe;
+}
+
+.delete {
+  border: 1px solid #d7d9db;
+  background-color: #fefefe;
 }

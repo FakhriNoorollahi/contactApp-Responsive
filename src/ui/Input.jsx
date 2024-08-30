@@ -1,8 +1,9 @@
 import React from "react";
 import styles from "./input.module.css";
 
-function Input({ value, onChange, title, id, required, isError, type }) {
-  const opacityShow = isError ? 1 : 0;
+function Input({ value, onChange, title, id, required, error, type }) {
+  // console.log(error);
+  const opacity = error?.isTrue ? 1 : 0;
 
   return (
     <div className={styles.inputContainer}>
@@ -13,8 +14,8 @@ function Input({ value, onChange, title, id, required, isError, type }) {
         </div>
         <input type="text" id={id} value={value} onChange={onChange} />
       </div>
-      <p className={styles.error} style={{ opacity: opacityShow }}>
-        Error
+      <p className={styles.error} style={{ opacity }}>
+        {error?.message}
       </p>
     </div>
   );

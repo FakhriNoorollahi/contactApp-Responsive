@@ -2,8 +2,17 @@ import React, { useState } from "react";
 import Input from "../../ui/Input";
 import inputs from "../constans/inputData";
 import styles from "./addNewContacts.module.css";
+import { checkEmailAndName } from "../../utils/validation.js";
+import Modal from "../modal/Modal.jsx";
 
-function AddNewContacts({ addNewContactHandler, onClose, userData = null }) {
+function AddNewContacts({
+  addNewContactHandler,
+  userData,
+  open,
+  setOpen,
+  text,
+  title,
+}) {
   const [contactData, setContactData] = useState(
     userData || {
       name: "",
@@ -14,13 +23,48 @@ function AddNewContacts({ addNewContactHandler, onClose, userData = null }) {
       id: "",
     }
   );
-
-  const [isError, setIsError] = useState({
-    name: false,
-    email: false,
+  const [error, setError] = useState({
+    name: { isTrue: false, message: "" },
+    email: { isTrue: false, message: "" },
   });
 
+  const saveNewContact = () => {
+    const { name, email } = contactData;
+    const objInput = checkEmailAndName(name, email);
+    setError(objInput);
+
+    if (objInput.name.isTrue || objInput.email.isTrue) {
+      return;
+    }
+
+    addNewContactHandler(contactData);
+    setError({
+      name: false,
+      email: false,
+    });
+    closeModalHandler();
+  };
+
+  function closeModalHandler() {
+    setContactData({
+      name: "",
+      phone: "",
+      email: "",
+      address: "",
+      job: "",
+    });
+    setError({
+      name: { isTrue: false, message: "" },
+      email: { isTrue: false, message: "" },
+    });
+    setOpen(false);
+  }
+
   const handleChangeInput = (e) => {
+    const { name, email } = contactData;
+    const objInput = checkEmailAndName(name, email);
+    setError(objInput);
+
     const title = e.target.id;
     const value = e.target.value;
     setContactData((data) => ({
@@ -31,62 +75,29 @@ function AddNewContacts({ addNewContactHandler, onClose, userData = null }) {
     }));
   };
 
-  const saveNewContact = () => {
-    const { name, email } = contactData;
-    if (!name && !email) {
-      setIsError({
-        name: true,
-        email: true,
-      });
-      return;
-    } else if (!name) {
-      setIsError({
-        ...isError,
-        name: true,
-      });
-      return;
-    } else if (!email) {
-      setIsError({
-        ...isError,
-        email: true,
-      });
-      return;
-    }
-
-    addNewContactHandler(contactData);
-    setIsError({
-      name: false,
-      email: false,
-    });
-    setContactData({
-      name: "",
-      phone: "",
-      email: "",
-      address: "",
-      job: "",
-    });
-    onClose();
-  };
-
   return (
-    <div>
-      {inputs.map((item) => (
-        <Input
-          key={item.title}
-          value={contactData[item.title]}
-          onChange={handleChangeInput}
-          id={item.title}
-          title={item.title}
-          required={item.required}
-          type="text"
-          isError={isError[item.title]}
-        />
-      ))}
-      <div className={styles.modalBtns}>
-        <button onClick={saveNewContact}>Add Contact</button>
-        <button onClick={onClose}>Cancle</button>
+    <Modal
+      open={open}
+      onClose={closeModalHandler}
+      onConfirm={saveNewContact}
+      text={text}
+      title={title}
+    >
+      <div className={styles.inputsContainer}>
+        {inputs.map((item) => (
+          <Input
+            key={item.title}
+            value={contactData[item.title]}
+            onChange={handleChangeInput}
+            id={item.title}
+            title={item.title}
+            required={item.required}
+            type="text"
+            error={error[item.title]}
+          />
+        ))}
       </div>
-    </div>
+    </Modal>
   );
 }
 

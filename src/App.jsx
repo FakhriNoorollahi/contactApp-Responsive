@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ContactsHeader from "./components/contactsHeader/ContactsHeader";
 import ContactsList from "./components/contactsContent/ContactsList";
+import Layout from "./components/Layout/Layout";
 
 function App() {
   const [search, setSearch] = useState("");
@@ -8,16 +9,7 @@ function App() {
     JSON.parse(localStorage.getItem("contacts")) || []
   );
 
-  const handleDeleteContact = (id) => {
-    const newContacts = contacts.filter((c) => +c.id !== +id);
-
-    localStorage.setItem("contacts", JSON.stringify(newContacts));
-    setContacts(newContacts);
-  };
-
   const addNewContactHandler = (data) => {
-    console.log(data.createdAt, data.name);
-
     const { id } = data;
     const find = contacts.filter((c) => +c.id !== +id);
     const newContacts = [...find, data];
@@ -26,25 +18,26 @@ function App() {
     localStorage.setItem("contacts", JSON.stringify(newContacts));
   };
 
+  const handleDeleteContact = (id) => {
+    const newContacts = contacts.filter((c) => +c.id !== +id);
+    localStorage.setItem("contacts", JSON.stringify(newContacts));
+    setContacts(newContacts);
+  };
+
   return (
-    <div className="container">
-      <h1>Contacts App</h1>
-      <div className="contacts-box">
-        <div className="contacts-container">
-          <ContactsHeader
-            search={search}
-            setSearch={setSearch}
-            addNewContactHandler={addNewContactHandler}
-          />
-          <ContactsList
-            contacts={contacts}
-            search={search}
-            handleDeleteContact={handleDeleteContact}
-            addNewContactHandler={addNewContactHandler}
-          />
-        </div>
-      </div>
-    </div>
+    <Layout>
+      <ContactsHeader
+        search={search}
+        setSearch={setSearch}
+        addNewContactHandler={addNewContactHandler}
+      />
+      <ContactsList
+        contacts={contacts}
+        search={search}
+        handleDeleteContact={handleDeleteContact}
+        addNewContactHandler={addNewContactHandler}
+      />
+    </Layout>
   );
 }
 
