@@ -3,13 +3,15 @@
   flex-direction: column;
   gap: 0.3em;
   height: 50px;
+  justify-content: flex-start;
 }
 
 .label {
   display: flex;
   width: 25%;
   text-transform: capitalize;
-  font-size: 1.1em;
+  font-size: 1em;
+  font-weight: 600;
 }
 
 .starSpan {
@@ -24,16 +26,23 @@
 }
 
 .inputDiv input {
-  border: 1px solid #d7d9db;
+  border: 1px solid #e7e6e6;
   padding: 0.7em 0.5em;
   border-radius: 0.5em;
   font-weight: 500;
   font-size: 0.9em;
   width: 100%;
+  transition: all 0.3s ease-in-out;
+}
+
+.inputDiv input:hover {
+  border-color: #fbfff1;
+  box-shadow: 1px 1px 10px 0px #c5c5c5;
 }
 
 .error {
   margin-left: 25%;
   font-size: 0.7em;
-  color: red;
+  color: var(--red-color);
+  text-align: left;
 }

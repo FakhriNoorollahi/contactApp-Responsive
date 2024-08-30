@@ -2,7 +2,14 @@ import React from "react";
 import styles from "./modal.module.css";
 import { HiMiniXMark } from "react-icons/hi2";
 
-function Modal({ children, onClose, onConfirm, text, title, open = false }) {
+function Modal({
+  children,
+  onClose,
+  title,
+  onConfirm = null,
+  text = null,
+  open = false,
+}) {
   const opacity = open ? "1" : "0";
   const pointerEvents = open ? "auto" : "none";
 
@@ -16,14 +23,16 @@ function Modal({ children, onClose, onConfirm, text, title, open = false }) {
           </button>
         </div>
         <div className={styles.modalContent}>{children}</div>
-        <div className={styles.modalFooter}>
-          <button className={styles.confirm} onClick={onConfirm}>
-            {text}
-          </button>
-          <button className={styles.delete} onClick={onClose}>
-            Cancle
-          </button>
-        </div>
+        {text && (
+          <div className={styles.modalFooter}>
+            <button className={styles.confirm} onClick={onConfirm}>
+              {text}
+            </button>
+            <button className={styles.delete} onClick={onClose}>
+              Cancle
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

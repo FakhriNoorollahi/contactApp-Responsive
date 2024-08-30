@@ -5,6 +5,7 @@
   border-radius: 0.5em;
   height: 280px;
   overflow-y: scroll;
+  box-shadow: 1px 1px 10px 0px #cecece;
 }
 
 .table {
@@ -37,15 +38,15 @@
 
 .table thead tr th {
   padding: 0.5em 0 1.5em;
-  color: #0080fc;
+  color: var(--blue-color);
 }
 
 .table tbody tr td {
-  padding: 1em;
+  padding: 0.8em 1em;
 }
 
 .table tbody tr:nth-child(odd) {
-  background-color: rgb(237, 237, 243);
+  background-color: #edf2f4;
 }
 
 .buttons {
@@ -56,7 +57,11 @@
 
 .buttonItem {
   font-size: 1.2em;
-  font-weight: 500;
+  font-weight: 600;
+}
+
+.buttonItem:hover {
+  color: var(--blue-color);
 }
 
 .tableContainer::-webkit-scrollbar {
@@ -64,11 +69,12 @@
 }
 
 .tableContainer::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 0 6px rgb(0, 0, 0, 0.3);
   border-radius: 10px;
 }
 
 .tableContainer::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: inset 0 0 6px var(--blue-color);
+  cursor: pointer;
 }

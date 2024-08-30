@@ -3,6 +3,7 @@ import styles from "./contactsList.module.css";
 import { CiEdit, CiRead, CiTrash } from "react-icons/ci";
 import AddNewContacts from "../AddNewContacts/AddNewContacts";
 import Modal from "../modal/Modal";
+import ContactDetail from "../ContactDetail/ContactDetail";
 
 function ContactsList({
   contacts,
@@ -20,7 +21,7 @@ function ContactsList({
 
   return (
     <div>
-      <h3>Contact List (3)</h3>
+      <h3>List of Contacts ({contacts.length})</h3>
       <div className={styles.tableContainer}>
         <table className={styles.table}>
           <thead>
@@ -62,6 +63,7 @@ function ContactItem({
 }) {
   const [openDelete, setOpenDelete] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
+  const [openDetail, setOpenDetail] = useState(false);
 
   const { name, email, phone, id } = contact;
 
@@ -70,14 +72,31 @@ function ContactItem({
       <td>{index + 1}</td>
       <td>
         <span></span>
-        <span>{name.substring(0, 8)}</span>
+        <span>
+          {name.substring(0, 10)}
+          {name.length > 10 ? "..." : ""}
+        </span>
       </td>
       <td>{phone ? phone : "➖"}</td>
-      <td>{email.substring(0, 8)}</td>
       <td>
-        <button className={styles.buttonItem}>
+        {email.substring(0, 12)}
+        {email.length > 12 ? "..." : ""}
+      </td>
+      <td>
+        <button
+          onClick={() => setOpenDetail(true)}
+          className={styles.buttonItem}
+        >
           <CiRead />
         </button>
+        {openDetail && (
+          <ContactDetail
+            title={`Detail contact ${name}`}
+            open={openDetail}
+            onClose={() => setOpenDetail(false)}
+            contact={contact}
+          />
+        )}
       </td>
       <td>
         <div className={styles.buttons}>
@@ -98,7 +117,9 @@ function ContactItem({
               text="Delete"
               title={`Delete contact ${name}`}
             >
-              Do you want to remove this contact?
+              <p style={{ fontSize: "1.1em" }}>
+                Are you sure you want to delete this user?
+              </p>
             </Modal>
           )}
           <button
