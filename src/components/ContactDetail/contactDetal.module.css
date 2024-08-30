@@ -27,7 +27,7 @@
 
 .information {
   width: 100%;
-  gap: 1.5;
+  gap: 2;
   margin-top: 1.5em;
 }
 
@@ -40,7 +40,7 @@
 
 .info p {
   width: 80%;
-  font-size: 1em;
+  font-size: 1.1em;
   font-weight: 500;
   text-align: start;
 }

@@ -1,10 +1,12 @@
 import React from "react";
 import Modal from "../modal/Modal";
 import styles from "./contactDetal.module.css";
-import { CiLocationOn, CiMail, CiPhone } from "react-icons/ci";
+
+import { HiBriefcase, HiPhone } from "react-icons/hi2";
+import { HiLocationMarker, HiMail } from "react-icons/hi";
 
 function ContactDetail({ title, open, onClose, contact }) {
-  const { name, email, phone, address } = contact;
+  const { name, email, phone, address, job } = contact;
 
   return (
     <Modal title={title} open={open} onClose={onClose}>
@@ -15,20 +17,26 @@ function ContactDetail({ title, open, onClose, contact }) {
           <div className={styles.info}>
             <p>{email}</p>
             <span>
-              <CiMail />
+              <HiMail />
             </span>
           </div>
           <div className={styles.info}>
             <p>{phone ? phone : "_______"}</p>
             <span>
               {" "}
-              <CiPhone />
+              <HiPhone />
             </span>
           </div>
           <div className={styles.info}>
-            <p>{address ? address : "_______"}</p>
+            <p>{job ? job : "_________"}</p>
             <span>
-              <CiLocationOn />
+              <HiBriefcase />
+            </span>
+          </div>
+          <div className={styles.info}>
+            <p>{address ? address : "_________"}</p>
+            <span>
+              <HiLocationMarker />
             </span>
           </div>
         </div>

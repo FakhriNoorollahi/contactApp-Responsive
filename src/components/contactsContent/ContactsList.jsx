@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import styles from "./contactsList.module.css";
-import { CiEdit, CiRead, CiTrash } from "react-icons/ci";
 import AddNewContacts from "../AddNewContacts/AddNewContacts";
 import Modal from "../modal/Modal";
 import ContactDetail from "../ContactDetail/ContactDetail";
+import {
+  HiOutlineDocumentCheck,
+  HiOutlinePencilSquare,
+  HiOutlineTrash,
+} from "react-icons/hi2";
 
 function ContactsList({
   contacts,
@@ -13,18 +17,39 @@ function ContactsList({
   delGroup,
   handleChecked,
 }) {
+  const [headerStyle, setHeaderStyle] = useState({
+    boxShadow: "none",
+    backgroundColor: "white",
+  });
   const contactsAll = contacts.filter(
     (c) =>
       c.name.toLowerCase().includes(search.trim().toLowerCase()) ||
       c.email.toLowerCase().includes(search.trim().toLowerCase())
   );
 
+  const handleScroll = (e) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.target;
+    const scrollRatio = scrollTop / (scrollHeight - clientHeight);
+
+    if (scrollRatio > 0.5) {
+      setHeaderStyle({
+        boxShadow: "inset 0 0 6px #3874e2",
+        backgroundColor: "#f1f1f7",
+      });
+    } else {
+      setHeaderStyle({
+        boxShadow: "none",
+        backgroundColor: "white",
+      });
+    }
+  };
+
   return (
     <div>
-      <h3>List of Contacts ({contacts.length})</h3>
-      <div className={styles.tableContainer}>
+      <p className={styles.title}>List of Contacts ({contacts.length})</p>
+      <div className={styles.tableContainer} onScroll={handleScroll}>
         <table className={styles.table}>
-          <thead>
+          <thead style={{ ...headerStyle }}>
             <tr>
               <th>#</th>
               <th>First/Last Name</th>
@@ -35,17 +60,28 @@ function ContactsList({
             </tr>
           </thead>
           <tbody>
-            {contactsAll.map((contact, index) => (
-              <ContactItem
-                key={contact.id}
-                contact={contact}
-                index={index}
-                handleDeleteContact={handleDeleteContact}
-                addNewContactHandler={addNewContactHandler}
-                delGroup={delGroup}
-                handleChecked={handleChecked}
-              />
-            ))}
+            {!!contactsAll.length ? (
+              contactsAll.map((contact, index) => (
+                <ContactItem
+                  key={contact.id}
+                  contact={contact}
+                  index={index}
+                  handleDeleteContact={handleDeleteContact}
+                  addNewContactHandler={addNewContactHandler}
+                  delGroup={delGroup}
+                  handleChecked={handleChecked}
+                />
+              ))
+            ) : (
+              <tr style={{ backgroundColor: "white" }}>
+                <td
+                  colSpan={6}
+                  style={{ textAlign: "center", fontSize: "1.2em" }}
+                >
+                  There is no Contact
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
@@ -71,11 +107,8 @@ function ContactItem({
     <tr>
       <td>{index + 1}</td>
       <td>
-        <span></span>
-        <span>
-          {name.substring(0, 10)}
-          {name.length > 10 ? "..." : ""}
-        </span>
+        {name.substring(0, 10)}
+        {name.length > 10 ? "..." : ""}
       </td>
       <td>{phone ? phone : "➖"}</td>
       <td>
@@ -87,7 +120,7 @@ function ContactItem({
           onClick={() => setOpenDetail(true)}
           className={styles.buttonItem}
         >
-          <CiRead />
+          <HiOutlineDocumentCheck />
         </button>
         {openDetail && (
           <ContactDetail
@@ -104,7 +137,7 @@ function ContactItem({
             className={styles.buttonItem}
             onClick={() => setOpenDelete(true)}
           >
-            <CiTrash />
+            <HiOutlineTrash />
           </button>
           {openDelete && (
             <Modal
@@ -126,7 +159,7 @@ function ContactItem({
             className={styles.buttonItem}
             onClick={() => setOpenEdit(true)}
           >
-            <CiEdit />
+            <HiOutlinePencilSquare />
           </button>
           {openEdit && (
             <AddNewContacts
