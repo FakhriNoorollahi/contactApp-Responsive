@@ -48,7 +48,12 @@
   transition: all 0.3s ease;
 }
 
-.buttons .button:hover {
+.buttons .button:hover,
+.buttons .button:focus {
   border-color: #fbfff1;
   box-shadow: 1px 1px 10px 0px #c5c5c5;
+}
+
+.buttons .button:last-child {
+  width: 120px;
 }

@@ -2,40 +2,59 @@ import { useState } from "react";
 import ContactsHeader from "./components/contactsHeader/ContactsHeader";
 import ContactsList from "./components/contactsContent/ContactsList";
 import Layout from "./components/Layout/Layout";
+import { getContacts, saveContacts } from "./utils/localStorage";
+import toast, { Toaster } from "react-hot-toast";
 
 function App() {
   const [search, setSearch] = useState("");
-  const [contacts, setContacts] = useState(
-    JSON.parse(localStorage.getItem("contacts")) || []
-  );
+  const [openDelete, setOpenDelete] = useState(false);
+  const [listDelete, SetListDelete] = useState([]);
+  const [contacts, setContacts] = useState(getContacts());
 
   const addNewContactHandler = (data) => {
     const { id } = data;
+    const isExist = contacts.find((c) => +c.id === +id);
     const find = contacts.filter((c) => +c.id !== +id);
     const newContacts = [...find, data];
     newContacts.sort((a, b) => a.createdAt - b.createdAt);
     setContacts(newContacts);
-    localStorage.setItem("contacts", JSON.stringify(newContacts));
+    saveContacts(newContacts);
+    isExist
+      ? toast.success("New user edited successfully")
+      : toast.success("New user added successfully");
   };
 
   const handleDeleteContact = (id) => {
-    const newContacts = contacts.filter((c) => +c.id !== +id);
-    localStorage.setItem("contacts", JSON.stringify(newContacts));
+    const allContacts = getContacts();
+    const newContacts = allContacts.filter((c) => +c.id !== +id);
+    saveContacts(newContacts);
     setContacts(newContacts);
+  };
+
+  const deleteGroup = () => {
+    listDelete.forEach((id) => handleDeleteContact(id));
+    SetListDelete([]);
+    setOpenDelete(false);
   };
 
   return (
     <Layout>
+      <Toaster />
       <ContactsHeader
         search={search}
         setSearch={setSearch}
         addNewContactHandler={addNewContactHandler}
+        openDelete={openDelete}
+        setOpenDelete={setOpenDelete}
+        deleteGroup={deleteGroup}
       />
       <ContactsList
         contacts={contacts}
         search={search}
         handleDeleteContact={handleDeleteContact}
         addNewContactHandler={addNewContactHandler}
+        openDelete={openDelete}
+        SetListDelete={SetListDelete}
       />
     </Layout>
   );

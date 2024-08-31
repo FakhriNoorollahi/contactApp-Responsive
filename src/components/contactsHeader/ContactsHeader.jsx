@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import styles from "./contactsHeader.module.css";
 import { CiSearch } from "react-icons/ci";
 import AddNewContacts from "../AddNewContacts/AddNewContacts";
+import toast from "react-hot-toast";
 
 function ContactsHeader({
   search,
   setSearch,
   addNewContactHandler,
+  openDelete,
+  setOpenDelete,
+  deleteGroup,
   userData = null,
 }) {
   const [open, setOpen] = useState(false);
@@ -36,7 +40,19 @@ function ContactsHeader({
             title="Add New Contact"
           />
         )}
-        <button className={styles.button}>Group deletion</button>
+        <button
+          className={styles.button}
+          onClick={
+            openDelete
+              ? () => {
+                  deleteGroup();
+                  toast.success("users deleted successfully");
+                }
+              : () => setOpenDelete(true)
+          }
+        >
+          {openDelete ? "Delete All" : "Group deletion"}
+        </button>
       </div>
     </div>
   );

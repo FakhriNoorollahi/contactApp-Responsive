@@ -42,6 +42,7 @@ function AddNewContacts({
       name: false,
       email: false,
     });
+
     closeModalHandler();
   };
 
