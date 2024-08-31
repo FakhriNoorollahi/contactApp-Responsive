@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Input from "../../ui/Input";
 import inputs from "../constans/inputData";
 import styles from "./addNewContacts.module.css";
-import { checkEmailAndName } from "../../utils/validation.js";
+import { checkEmail, checkName } from "../../utils/validation.js";
 import Modal from "../modal/Modal.jsx";
 
 function AddNewContacts({
@@ -23,25 +23,27 @@ function AddNewContacts({
       id: "",
     }
   );
-  const [error, setError] = useState({
-    name: { isTrue: false, message: "" },
-    email: { isTrue: false, message: "" },
-  });
+  console.log(contactData);
+
+  const [errorName, setErrorName] = useState({ isTrue: false, message: "" });
+  const [errorEmail, setErrorEmail] = useState({ isTrue: false, message: "" });
 
   const saveNewContact = () => {
     const { name, email } = contactData;
-    const objInput = checkEmailAndName(name, email);
-    setError(objInput);
 
-    if (objInput.name.isTrue || objInput.email.isTrue) {
+    const resEmail = checkEmail(email);
+    setErrorEmail(resEmail);
+    const resName = checkName(name);
+    setErrorName(resName);
+
+    if (resEmail.isTrue || resName.isTrue) {
       return;
     }
 
     addNewContactHandler(contactData);
-    setError({
-      name: false,
-      email: false,
-    });
+
+    setErrorEmail({ isTrue: false, message: "" });
+    setErrorName({ isTrue: false, message: "" });
 
     closeModalHandler();
   };
@@ -54,20 +56,25 @@ function AddNewContacts({
       address: "",
       job: "",
     });
-    setError({
-      name: { isTrue: false, message: "" },
-      email: { isTrue: false, message: "" },
-    });
+    setErrorEmail({ isTrue: false, message: "" });
+    setErrorName({ isTrue: false, message: "" });
     setOpen(false);
   }
 
   const handleChangeInput = (e) => {
-    const { name, email } = contactData;
-    const objInput = checkEmailAndName(name, email);
-    setError(objInput);
-
     const title = e.target.id;
     const value = e.target.value;
+
+    if (title === "email") {
+      const res = checkEmail(value);
+      setErrorEmail(res);
+    } else if (title === "name") {
+      console.log(title);
+
+      const res = checkName(value);
+      setErrorName(res);
+    }
+
     setContactData((data) => ({
       ...data,
       [title]: value,
@@ -94,7 +101,13 @@ function AddNewContacts({
             title={item.title}
             required={item.required}
             type="text"
-            error={error[item.title]}
+            error={
+              item.title === "name"
+                ? errorName
+                : item.title === "email"
+                ? errorEmail
+                : null
+            }
           />
         ))}
       </div>

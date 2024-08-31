@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./input.module.css";
 
 function Input({ value, onChange, title, id, required, error, type }) {
-  // console.log(error);
+  console.log(value, error);
   const opacity = error?.isTrue ? 1 : 0;
 
   return (
