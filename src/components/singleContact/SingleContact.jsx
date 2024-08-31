@@ -46,7 +46,7 @@ function SingleContact({
         </button>
         {openDetail && (
           <ContactDetail
-            title={`Detail contact ${name}`}
+            title={name}
             open={openDetail}
             onClose={() => setOpenDetail(false)}
             contact={contact}
@@ -79,7 +79,7 @@ function SingleContact({
                   toast.success("user deleted successfully");
                 }}
                 text="Delete"
-                title={`Delete contact ${name}`}
+                title={`Delete information ${name}`}
               >
                 <p style={{ fontSize: "1.1em" }}>
                   Are you sure you want to delete this user?
@@ -100,7 +100,7 @@ function SingleContact({
                 text="Edit"
                 open={openEdit}
                 setOpen={setOpenEdit}
-                title={`Edite contact ${name}`}
+                title={`Edite information ${name}`}
               />
             )}
           </div>
