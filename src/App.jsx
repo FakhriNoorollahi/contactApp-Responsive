@@ -14,13 +14,15 @@ function App() {
   const addNewContactHandler = (data) => {
     const { id } = data;
     const isExist = contacts.find((c) => +c.id === +id);
-    const find = contacts.filter((c) => +c.id !== +id);
-    const newContacts = [...find, data];
+    const findContacts = contacts.filter((c) => +c.id !== +id);
+    const newContacts = [...findContacts, data];
     newContacts.sort((a, b) => a.createdAt - b.createdAt);
     setContacts(newContacts);
     saveContacts(newContacts);
     isExist
-      ? toast.success("New user edited successfully")
+      ? JSON.stringify(data) === JSON.stringify(isExist)
+        ? ""
+        : toast.success("New user edited successfully")
       : toast.success("New user added successfully");
   };
 
