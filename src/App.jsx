@@ -54,6 +54,7 @@ function App() {
         handleDeleteContact={handleDeleteContact}
         addNewContactHandler={addNewContactHandler}
         openDelete={openDelete}
+        listDelete={listDelete}
         SetListDelete={SetListDelete}
       />
     </Layout>

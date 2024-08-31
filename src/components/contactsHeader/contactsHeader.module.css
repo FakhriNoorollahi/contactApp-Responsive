@@ -57,3 +57,26 @@
 .buttons .button:last-child {
   width: 120px;
 }
+
+@media screen and (max-width: 760px) {
+  .header {
+    flex-direction: column;
+    gap: 1.5em;
+  }
+  .search {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .header input::placeholder {
+    font-size: 0.8em;
+  }
+
+  .buttons {
+    flex-direction: column;
+  }
+  .buttons .button:last-child {
+    width: 100%;
+  }
+}

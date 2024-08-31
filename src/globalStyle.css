@@ -18,7 +18,7 @@ body {
   background-color: rgba(198, 220, 233, 0.5);
   display: flex;
   justify-content: center;
-  height: 100vh;
+  max-width: 1300px;
 }
 
 input {
@@ -36,8 +36,17 @@ ul {
   list-style: none;
 }
 
+#root {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
 .container {
   width: 850px;
+  margin: 20px auto;
+  transition: all 0.3s ease;
 }
 .contacts-box {
   background-color: var(--blue-color);
@@ -52,4 +61,20 @@ ul {
   padding: 1.5em 2.5em;
   border-top-left-radius: 0.9em;
   border-bottom-left-radius: 0.9em;
+}
+
+@media screen and (max-width: 940px) {
+  .container {
+    width: calc(100% - 40px);
+  }
+
+  h1 {
+    font-size: 1.5em;
+  }
+}
+
+@media screen and (max-width: 760px) {
+  .container {
+    width: 80%;
+  }
 }

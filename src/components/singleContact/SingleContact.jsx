@@ -16,6 +16,7 @@ function SingleContact({
   handleDeleteContact,
   addNewContactHandler,
   SetListDelete,
+  listDelete,
   openAllDelete,
 }) {
   const [openDelete, setOpenDelete] = useState(false);
@@ -57,6 +58,7 @@ function SingleContact({
           <input
             type="checkbox"
             className={styles.checkboxInput}
+            value={listDelete}
             onChange={() => SetListDelete((items) => [...items, id])}
           />
         ) : (

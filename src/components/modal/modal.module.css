@@ -90,3 +90,16 @@
 .delete:hover {
   border-color: var(--blue-color);
 }
+
+@media screen and (max-width: 940px) {
+  .modalContent {
+    max-height: 300px;
+    overflow: auto;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .modal {
+    width: calc(100% - 40px);
+  }
+}

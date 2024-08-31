@@ -16,36 +16,36 @@ export function checkEmailAndName(nameVal, emailVal) {
   const validatName = validateNameInput(nameVal);
   if (!nameVal && !emailVal) {
     return {
-      name: { isTrue: true, message: "must fill" },
-      email: { isTrue: true, message: "must fill" },
+      name: { isTrue: true, message: "Please fill in this field" },
+      email: { isTrue: true, message: "Please fill in this field" },
     };
   } else if (!nameVal) {
-    const message = validatEmail ? "" : "not valid";
+    const message = validatEmail ? "" : "Email is not valid";
     return {
-      name: { isTrue: true, message: "must fill" },
+      name: { isTrue: true, message: "Please fill in this field" },
       email: { isTrue: !validatEmail, message },
     };
   } else if (!emailVal) {
-    const message = validatName ? "" : "not valid";
+    const message = validatName ? "" : "Username is not valid";
     return {
-      email: { isTrue: true, message: "must fill" },
+      email: { isTrue: true, message: "Please fill in this field" },
       name: { isTrue: !validatName, message },
     };
   } else {
     if (!validatEmail && !validatName)
       return {
-        name: { isTrue: true, message: "not valid" },
-        email: { isTrue: true, message: "not valid" },
+        name: { isTrue: true, message: "Username is not valid" },
+        email: { isTrue: true, message: "Email is not valid" },
       };
     if (!validatEmail && validatName)
       return {
         name: { isTrue: false, message: "" },
-        email: { isTrue: !validatEmail, message: "not valid" },
+        email: { isTrue: !validatEmail, message: "Email is not valid" },
       };
     if (validatEmail && !validatName)
       return {
         email: { isTrue: false, message: "" },
-        name: { isTrue: !validatName, message: "not valid" },
+        name: { isTrue: !validatName, message: "Username is not valid" },
       };
     if (validatEmail && validatName)
       return {

@@ -9,6 +9,7 @@ function ContactsList({
   addNewContactHandler,
   openDelete,
   handleChecked,
+  listDelete,
   SetListDelete,
 }) {
   const [headerStyle, setHeaderStyle] = useState({
@@ -64,6 +65,7 @@ function ContactsList({
                   addNewContactHandler={addNewContactHandler}
                   openAllDelete={openDelete}
                   handleChecked={handleChecked}
+                  listDelete={listDelete}
                   SetListDelete={SetListDelete}
                 />
               ))
