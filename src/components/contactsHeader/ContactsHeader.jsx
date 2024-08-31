@@ -42,14 +42,7 @@ function ContactsHeader({
         )}
         <button
           className={styles.button}
-          onClick={
-            openDelete
-              ? () => {
-                  deleteGroup();
-                  toast.success("users deleted successfully");
-                }
-              : () => setOpenDelete(true)
-          }
+          onClick={openDelete ? () => deleteGroup() : () => setOpenDelete(true)}
         >
           {openDelete ? "Delete All" : "Group deletion"}
         </button>

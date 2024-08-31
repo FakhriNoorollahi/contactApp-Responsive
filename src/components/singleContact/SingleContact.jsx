@@ -22,8 +22,20 @@ function SingleContact({
   const [openDelete, setOpenDelete] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [openDetail, setOpenDetail] = useState(false);
+  const [checked, setChecked] = useState(false);
 
   const { name, email, phone, id } = contact;
+
+  const handleChecked = (id) => {
+    setChecked((check) => !check);
+
+    if (!checked) {
+      SetListDelete((items) => [...items, id]);
+    } else {
+      const newList = listDelete.filter((item) => +item.id === +id);
+      SetListDelete(newList);
+    }
+  };
 
   return (
     <tr>
@@ -58,8 +70,10 @@ function SingleContact({
           <input
             type="checkbox"
             className={styles.checkboxInput}
-            value={listDelete}
-            onChange={() => SetListDelete((items) => [...items, id])}
+            value={checked}
+            onChange={() => handleChecked(id)}
+            // value={listDelete}
+            // onChange={() => SetListDelete((items) => [...items, id])}
           />
         ) : (
           <div className={styles.buttons}>

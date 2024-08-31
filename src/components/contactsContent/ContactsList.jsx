@@ -41,7 +41,7 @@ function ContactsList({
 
   return (
     <div>
-      <p className={styles.title}>List of Contacts ({contacts.length})</p>
+      <p className={styles.title}>List of Contacts ({contactsAll.length})</p>
       <div className={styles.tableContainer} onScroll={handleScroll}>
         <table className={styles.table}>
           <thead style={{ ...headerStyle }}>

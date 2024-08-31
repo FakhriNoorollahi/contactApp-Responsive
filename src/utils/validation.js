@@ -7,8 +7,13 @@ function validateEmailInput(emailInput) {
   }
 }
 
-function validateNameInput(name) {
-  return name.length >= 8 ? true : false;
+function validateNameInput(nameInput) {
+  const nameRegex = /^[a-zA-Z0-9._(u0600-\u06FF) ]{7,}\S/g;
+  if (nameRegex.test(nameInput)) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 export function checkEmail(emailVal) {
@@ -26,7 +31,7 @@ export function checkName(nameVal) {
     return { isTrue: true, message: "Please fill in this field" };
   } else {
     const validatName = validateNameInput(nameVal);
-    const message = validatName ? "" : "Name is not valid";
+    const message = validatName ? "" : "It must have at least 8 characters";
     return { isTrue: !validatName, message };
   }
 }

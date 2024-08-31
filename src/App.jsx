@@ -34,14 +34,28 @@ function App() {
   };
 
   const deleteGroup = () => {
-    listDelete.forEach((id) => handleDeleteContact(id));
-    SetListDelete([]);
+    const listId = listDelete;
+
+    if (!listId.length) {
+      ("");
+    } else {
+      listDelete.forEach((id) => handleDeleteContact(id));
+      SetListDelete([]);
+      toast.success("selected characters deleted successfully");
+    }
     setOpenDelete(false);
   };
 
   return (
     <Layout>
-      <Toaster />
+      <Toaster
+        toastOptions={{
+          className: "",
+          style: {
+            border: "2px solid #3874e2",
+          },
+        }}
+      />
       <ContactsHeader
         search={search}
         setSearch={setSearch}
