@@ -60,6 +60,7 @@ function SingleContact({
           <div className={styles.buttons}>
             <SingleDeleteButton
               id={id}
+              name={name}
               handleDeleteContact={handleDeleteContact}
             />
             <EditeButton
