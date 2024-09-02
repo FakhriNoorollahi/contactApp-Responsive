@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Input from "../../ui/Input";
+import Input from "../../ui/Input/Input.jsx";
 import { inputsData } from "../../utils/constantData.js";
 import styles from "./addNewContacts.module.css";
 import { checkEmail, checkName } from "../../utils/validation.js";
