@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import AddNewContacts from "../AddNewContacts/AddNewContacts";
-import Modal from "../modal/Modal";
 import ContactDetail from "../ContactDetail/ContactDetail";
 import {
   HiOutlineDocumentCheck,
@@ -9,6 +8,8 @@ import {
 } from "react-icons/hi2";
 import styles from "../contactsContent/contactsList.module.css";
 import toast from "react-hot-toast";
+import SingleDeleteContact from "../SingleDeleteContact/SingleDeleteContact";
+import TableButton from "../../ui/TableButton/TableButton";
 
 function SingleContact({
   contact,
@@ -19,11 +20,7 @@ function SingleContact({
   listDelete,
   openAllDelete,
 }) {
-  const [openDelete, setOpenDelete] = useState(false);
-  const [openEdit, setOpenEdit] = useState(false);
-  const [openDetail, setOpenDetail] = useState(false);
   const [checked, setChecked] = useState(false);
-
   const { name, email, phone, id } = contact;
 
   const handleChecked = (id) => {
@@ -32,8 +29,7 @@ function SingleContact({
     if (!checked) {
       SetListDelete((items) => [...items, id]);
     } else {
-      const newList = listDelete.filter((item) => +item.id === +id);
-      SetListDelete(newList);
+      SetListDelete(listDelete.filter((item) => +item.id === +id));
     }
   };
 
@@ -50,20 +46,7 @@ function SingleContact({
         {email.length > 12 ? "..." : ""}
       </td>
       <td>
-        <button
-          onClick={() => setOpenDetail(true)}
-          className={styles.buttonItem}
-        >
-          <HiOutlineDocumentCheck />
-        </button>
-        {openDetail && (
-          <ContactDetail
-            title={name}
-            open={openDetail}
-            onClose={() => setOpenDetail(false)}
-            contact={contact}
-          />
-        )}
+        <DetailButton contact={contact} />
       </td>
       <td>
         {openAllDelete ? (
@@ -72,51 +55,17 @@ function SingleContact({
             className={styles.checkboxInput}
             value={checked}
             onChange={() => handleChecked(id)}
-            // value={listDelete}
-            // onChange={() => SetListDelete((items) => [...items, id])}
           />
         ) : (
           <div className={styles.buttons}>
-            <button
-              className={styles.buttonItem}
-              onClick={() => setOpenDelete(true)}
-            >
-              <HiOutlineTrash />
-            </button>
-            {openDelete && (
-              <Modal
-                onClose={() => setOpenDelete(false)}
-                open={openDelete}
-                onConfirm={() => {
-                  handleDeleteContact(id);
-                  () => setOpenDelete(false);
-                  toast.success("user deleted successfully");
-                }}
-                text="Delete"
-                title={`Delete information ${name}`}
-              >
-                <p style={{ fontSize: "1.1em" }}>
-                  Are you sure you want to delete this user?
-                </p>
-              </Modal>
-            )}
-            <button
-              className={styles.buttonItem}
-              onClick={() => setOpenEdit(true)}
-            >
-              <HiOutlinePencilSquare />
-            </button>
-            {openEdit && (
-              <AddNewContacts
-                userData={contact}
-                addNewContactHandler={addNewContactHandler}
-                onClose={() => setOpenEdit(false)}
-                text="Edit"
-                open={openEdit}
-                setOpen={setOpenEdit}
-                title={`Edite information ${name}`}
-              />
-            )}
+            <SingleDeleteButton
+              id={id}
+              handleDeleteContact={handleDeleteContact}
+            />
+            <EditeButton
+              contact={contact}
+              addNewContactHandler={addNewContactHandler}
+            />
           </div>
         )}
       </td>
@@ -125,3 +74,65 @@ function SingleContact({
 }
 
 export default SingleContact;
+
+function DetailButton({ contact }) {
+  const [openDetail, setOpenDetail] = useState(false);
+  return (
+    <TableButton
+      className={styles.buttonItem}
+      onClick={() => setOpenDetail(true)}
+      open={openDetail}
+      text={<HiOutlineDocumentCheck />}
+    >
+      <ContactDetail
+        open={openDetail}
+        onClose={() => setOpenDetail(false)}
+        contact={contact}
+      />
+    </TableButton>
+  );
+}
+
+function SingleDeleteButton({ name, id, handleDeleteContact }) {
+  const [openDelete, setOpenDelete] = useState(false);
+  return (
+    <TableButton
+      className={styles.buttonItem}
+      open={openDelete}
+      onClick={() => setOpenDelete(true)}
+      text={<HiOutlineTrash />}
+    >
+      <SingleDeleteContact
+        open={openDelete}
+        onClose={() => setOpenDelete(false)}
+        onConfirm={() => {
+          handleDeleteContact(id);
+          () => setOpenDelete(false);
+          toast.success("user deleted successfully");
+        }}
+        name={name}
+      />
+    </TableButton>
+  );
+}
+
+function EditeButton({ contact, addNewContactHandler }) {
+  const [openEdit, setOpenEdit] = useState(false);
+  return (
+    <TableButton
+      className={styles.buttonItem}
+      open={openEdit}
+      onClick={() => setOpenEdit(true)}
+      text={<HiOutlinePencilSquare />}
+    >
+      <AddNewContacts
+        userData={contact}
+        addNewContactHandler={addNewContactHandler}
+        open={openEdit}
+        setOpen={setOpenEdit}
+        text="Edit"
+        title={`Edite information ${contact.name}`}
+      />
+    </TableButton>
+  );
+}

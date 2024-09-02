@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./contactsHeader.module.css";
 import { CiSearch } from "react-icons/ci";
 import AddNewContacts from "../AddNewContacts/AddNewContacts";
-import toast from "react-hot-toast";
+import TableButton from "../../ui/TableButton/TableButton";
 
 function ContactsHeader({
   search,
@@ -11,7 +11,6 @@ function ContactsHeader({
   openDelete,
   setOpenDelete,
   deleteGroup,
-  userData = null,
 }) {
   const [open, setOpen] = useState(false);
 
@@ -27,25 +26,27 @@ function ContactsHeader({
         />
       </div>
       <div className={styles.buttons}>
-        <button onClick={() => setOpen(true)} className={styles.button}>
-          Add New
-        </button>
-        {open && (
+        <TableButton
+          className={styles.button}
+          open={open}
+          onClick={() => setOpen(true)}
+          text="Add Contact"
+        >
           <AddNewContacts
             addNewContactHandler={addNewContactHandler}
-            userData={userData}
+            userData={null}
             setOpen={setOpen}
             open={open}
             text="Add Contacts"
             title="Add New Contact"
           />
-        )}
-        <button
+        </TableButton>
+        <TableButton
           className={styles.button}
+          open={false}
+          text={openDelete ? "Delete All" : "Group deletion"}
           onClick={openDelete ? () => deleteGroup() : () => setOpenDelete(true)}
-        >
-          {openDelete ? "Delete All" : "Group deletion"}
-        </button>
+        />
       </div>
     </div>
   );

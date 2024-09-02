@@ -46,6 +46,12 @@ function App() {
     setOpenDelete(false);
   };
 
+  const allContacts = contacts.filter(
+    (c) =>
+      c.name.toLowerCase().includes(search.trim().toLowerCase()) ||
+      c.email.toLowerCase().includes(search.trim().toLowerCase())
+  );
+
   return (
     <Layout>
       <Toaster
@@ -65,8 +71,7 @@ function App() {
         deleteGroup={deleteGroup}
       />
       <ContactsList
-        contacts={contacts}
-        search={search}
+        contacts={allContacts}
         handleDeleteContact={handleDeleteContact}
         addNewContactHandler={addNewContactHandler}
         openDelete={openDelete}

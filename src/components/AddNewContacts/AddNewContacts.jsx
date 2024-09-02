@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Input from "../../ui/Input";
-import inputs from "../constans/inputData";
+import { inputsData } from "../../utils/constantData.js";
 import styles from "./addNewContacts.module.css";
 import { checkEmail, checkName } from "../../utils/validation.js";
 import Modal from "../modal/Modal.jsx";
@@ -10,8 +10,8 @@ function AddNewContacts({
   userData,
   open,
   setOpen,
-  text,
   title,
+  text,
 }) {
   const [contactData, setContactData] = useState(
     userData || {
@@ -23,7 +23,6 @@ function AddNewContacts({
       id: "",
     }
   );
-  console.log(contactData);
 
   const [errorName, setErrorName] = useState({ isTrue: false, message: "" });
   const [errorEmail, setErrorEmail] = useState({ isTrue: false, message: "" });
@@ -69,8 +68,6 @@ function AddNewContacts({
       const res = checkEmail(value);
       setErrorEmail(res);
     } else if (title === "name") {
-      console.log(title);
-
       const res = checkName(value);
       setErrorName(res);
     }
@@ -90,17 +87,17 @@ function AddNewContacts({
       onConfirm={saveNewContact}
       text={text}
       title={title}
+      existFooter={true}
     >
       <div className={styles.inputsContainer}>
-        {inputs.map((item) => (
+        {inputsData.map((item) => (
           <Input
-            key={item.title}
+            key={item.id}
             value={contactData[item.title]}
             onChange={handleChangeInput}
             id={item.title}
             title={item.title}
             required={item.required}
-            type="text"
             error={
               item.title === "name"
                 ? errorName

@@ -6,8 +6,9 @@ function Modal({
   children,
   onClose,
   title,
+  existFooter = false,
+  text = "",
   onConfirm = null,
-  text = null,
   open = false,
 }) {
   const opacity = open ? "1" : "0";
@@ -23,7 +24,7 @@ function Modal({
           </button>
         </div>
         <div className={styles.modalContent}>{children}</div>
-        {text && (
+        {existFooter && (
           <div className={styles.modalFooter}>
             <button className={styles.confirm} onClick={onConfirm}>
               {text}
