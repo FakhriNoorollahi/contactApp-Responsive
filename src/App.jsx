@@ -4,9 +4,9 @@ import ContactsList from "./components/contactsContent/ContactsList";
 import Layout from "./components/Layout/Layout";
 import { getContacts, saveContacts } from "./utils/localStorage";
 import toast, { Toaster } from "react-hot-toast";
+import { ContactProvider } from "./context/ContactProvider";
 
 function App() {
-  const [search, setSearch] = useState("");
   const [openDelete, setOpenDelete] = useState(false);
   const [listDelete, SetListDelete] = useState([]);
   const [contacts, setContacts] = useState(getContacts());
@@ -26,12 +26,7 @@ function App() {
       : toast.success("New user added successfully");
   };
 
-  const handleDeleteContact = (id) => {
-    const allContacts = getContacts();
-    const newContacts = allContacts.filter((c) => +c.id !== +id);
-    saveContacts(newContacts);
-    setContacts(newContacts);
-  };
+
 
   const deleteGroup = () => {
     const listId = listDelete;
@@ -46,39 +41,33 @@ function App() {
     setOpenDelete(false);
   };
 
-  const allContacts = contacts.filter(
-    (c) =>
-      c.name.toLowerCase().includes(search.trim().toLowerCase()) ||
-      c.email.toLowerCase().includes(search.trim().toLowerCase())
-  );
-
   return (
-    <Layout>
-      <Toaster
-        toastOptions={{
-          className: "",
-          style: {
-            border: "2px solid #3874e2",
-          },
-        }}
-      />
-      <ContactsHeader
-        search={search}
-        setSearch={setSearch}
-        addNewContactHandler={addNewContactHandler}
-        openDelete={openDelete}
-        setOpenDelete={setOpenDelete}
-        deleteGroup={deleteGroup}
-      />
-      <ContactsList
-        contacts={allContacts}
-        handleDeleteContact={handleDeleteContact}
-        addNewContactHandler={addNewContactHandler}
-        openDelete={openDelete}
-        listDelete={listDelete}
-        SetListDelete={SetListDelete}
-      />
-    </Layout>
+    <ContactProvider>
+      <Layout>
+        <Toaster
+          toastOptions={{
+            className: "",
+            style: {
+              border: "2px solid #3874e2",
+            },
+          }}
+        />
+        <ContactsHeader
+          addNewContactHandler={addNewContactHandler}
+          openDelete={openDelete}
+          setOpenDelete={setOpenDelete}
+          deleteGroup={deleteGroup}
+        />
+        <ContactsList
+          // contacts={allContacts}
+          // handleDeleteContact={handleDeleteContact}
+          addNewContactHandler={addNewContactHandler}
+          openDelete={openDelete}
+          listDelete={listDelete}
+          SetListDelete={SetListDelete}
+        />
+      </Layout>
+    </ContactProvider>
   );
 }
 

@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./contactsList.module.css";
 import SingleContact from "../singleContact/singleContact";
 import { checkHeaderTbale } from "../../utils/scrollHeaderTable";
 import { tableHeaderTitle } from "../../utils/constantData.js";
+import { contactContext } from "../../context/ContactProvider.jsx";
+import Loader from "../../ui/Loader/Loader.jsx";
 
 function ContactsList({
-  contacts,
-  handleDeleteContact,
   addNewContactHandler,
   openDelete,
   listDelete,
@@ -23,6 +23,8 @@ function ContactsList({
     setHeaderStyle(objectStyle);
   };
 
+  const { contacts, isLoading } = useContext(contactContext);
+
   return (
     <div>
       <p className={styles.title}>List of Contacts ({contacts.length})</p>
@@ -35,13 +37,13 @@ function ContactsList({
               ))}
             </tr>
           </thead>
-          <TableBody contacts={contacts}>
+          <TableBody contacts={contacts} isLoading={isLoading}>
             {contacts.map((contact, index) => (
               <SingleContact
                 key={contact.id}
                 contact={contact}
                 index={index}
-                handleDeleteContact={handleDeleteContact}
+                // handleDeleteContact={handleDeleteContact}
                 addNewContactHandler={addNewContactHandler}
                 openAllDelete={openDelete}
                 listDelete={listDelete}
@@ -57,18 +59,29 @@ function ContactsList({
 
 export default ContactsList;
 
-function TableBody({ contacts, children }) {
+function TableBody({ contacts, isLoading, children }) {
   return (
     <tbody>
-      {!!contacts.length ? (
+      {isLoading ? (
+        <TableRowWithoutContact>
+          <Loader style={{ margin: "0 auto" }} />
+        </TableRowWithoutContact>
+      ) : !!contacts.length ? (
         children
       ) : (
-        <tr style={{ backgroundColor: "white" }}>
-          <td colSpan={6} style={{ textAlign: "center", fontSize: "1.2em" }}>
-            There is no Contact
-          </td>
-        </tr>
+        <TableRowWithoutContact>There is no Contact</TableRowWithoutContact>
       )}
     </tbody>
+  );
+}
+
+function TableRowWithoutContact({ children }) {
+  return (
+    <tr
+      className={styles.rowWithoutContact}
+      style={{ backgroundColor: "white" }}
+    >
+      <td colSpan={6}>{children}</td>
+    </tr>
   );
 }

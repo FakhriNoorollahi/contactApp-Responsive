@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import AddNewContacts from "../AddNewContacts/AddNewContacts";
 import ContactDetail from "../ContactDetail/ContactDetail";
 import {
@@ -10,11 +10,12 @@ import styles from "../contactsContent/contactsList.module.css";
 import toast from "react-hot-toast";
 import SingleDeleteContact from "../SingleDeleteContact/SingleDeleteContact";
 import TableButton from "../../ui/TableButton/TableButton";
+import { contactContext } from "../../context/ContactProvider";
 
 function SingleContact({
   contact,
   index,
-  handleDeleteContact,
+  // handleDeleteContact,
   addNewContactHandler,
   SetListDelete,
   listDelete,
@@ -22,6 +23,7 @@ function SingleContact({
 }) {
   const [checked, setChecked] = useState(false);
   const { name, email, phone, id } = contact;
+  const { handleDeleteContact } = useContext(contactContext);
 
   const handleChecked = (id) => {
     setChecked((check) => !check);

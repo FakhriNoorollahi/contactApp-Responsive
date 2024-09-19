@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./contactsHeader.module.css";
 import { CiSearch } from "react-icons/ci";
 import AddNewContacts from "../AddNewContacts/AddNewContacts";
 import TableButton from "../../ui/TableButton/TableButton";
+import { contactContext } from "../../context/ContactProvider";
 
 function ContactsHeader({
-  search,
-  setSearch,
   addNewContactHandler,
   openDelete,
   setOpenDelete,
   deleteGroup,
 }) {
+  const { search, setSearch } = useContext(contactContext);
   const [open, setOpen] = useState(false);
 
   return (

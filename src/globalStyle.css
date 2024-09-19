@@ -63,6 +63,31 @@ ul {
   border-bottom-left-radius: 0.9em;
 }
 
+.loader {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 32px 0 #fff, -32px 0 #fff;
+  position: relative;
+  animation: flash 0.5s ease-out infinite alternate;
+}
+
+@keyframes flash {
+  0% {
+    background-color: var(--blue-color);
+    box-shadow: 32px 0 var(--blue-color), -32px 0 #fff;
+  }
+  50% {
+    background-color: #fff;
+    box-shadow: 32px 0 var(--blue-color), -32px 0 var(--blue-color);
+  }
+  100% {
+    background-color: var(--blue-color);
+    box-shadow: 32px 0 #fff, -32px 0 var(--blue-color);
+  }
+}
+
 @media screen and (max-width: 940px) {
   .container {
     width: calc(100% - 40px);
