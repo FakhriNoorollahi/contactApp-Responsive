@@ -5,13 +5,9 @@ import AddNewContacts from "../AddNewContacts/AddNewContacts";
 import TableButton from "../../ui/TableButton/TableButton";
 import { contactContext } from "../../context/ContactProvider";
 
-function ContactsHeader({
-  addNewContactHandler,
-  openDelete,
-  setOpenDelete,
-  deleteGroup,
-}) {
-  const { search, setSearch } = useContext(contactContext);
+function ContactsHeader() {
+  const { openDelete, setOpenDelete, deleteGroup, search, setSearch } =
+    useContext(contactContext);
   const [open, setOpen] = useState(false);
 
   return (
@@ -33,7 +29,6 @@ function ContactsHeader({
           text="Add Contact"
         >
           <AddNewContacts
-            addNewContactHandler={addNewContactHandler}
             userData={null}
             setOpen={setOpen}
             open={open}

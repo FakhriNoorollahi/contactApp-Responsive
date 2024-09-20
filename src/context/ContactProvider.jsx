@@ -1,44 +1,58 @@
-import { createContext, useEffect, useReducer, useState } from "react";
-import { fetchContact } from "../services/fetchContact";
-import axios from "axios";
-
-function contactsReducer(state, { type, payload }) {
-  switch (type) {
-    case "REPLACE_STATE":
-      return payload;
-    case "DELETE":
-      return state.filter((c) => +c.id !== +payload);
-    default:
-      return state;
-  }
-}
+import { createContext, useEffect, useState } from "react";
+import {
+  addContact,
+  deleteContact,
+  editeContact,
+  getContacts,
+} from "../services/httpReq";
+import toast from "react-hot-toast";
 
 export const contactContext = createContext();
 
 export function ContactProvider({ children }) {
   const [search, setSearch] = useState("");
-  const { isLoading, data, isError } = fetchContact();
-  const [allContacts, dispatch] = useReducer(contactsReducer, []);
+  const [allContacts, setAllContacts] = useState([]);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [listDelete, setListDelete] = useState([]);
+
+  const fetchData = async () => {
+    const res = await getContacts();
+    setAllContacts(res.data);
+  };
 
   useEffect(() => {
-    if (data) {
-      dispatch({ type: "REPLACE_STATE", payload: data });
-    }
-  }, [data]);
+    fetchData();
+  }, []);
 
   const handleDeleteContact = async (id) => {
-    try {
-      const { data } = await axios.delete(
-        `http://localhost:3000/contacts/${id}`
-      );
+    await deleteContact(id);
+    fetchData();
+  };
 
-      dispatch({ type: "DELETE", payload: data.id });
-    } catch (error) {
-      console.log(error);
+  const addNewContactHandler = async (data) => {
+    const { id } = data;
+    const isExist = allContacts.find((c) => +c.id === +id);
+    if (isExist) {
+      await editeContact(id, data);
+    } else {
+      await addContact(data);
     }
+    fetchData();
+  };
 
-    // dispatch({ type: "DELETE", payload: id });
-    // const newContacts = allContacts.filter((c) => +c.id !== +id);
+  const deleteGroup = async () => {
+    const listId = listDelete;
+    console.log(listId);
+
+    if (!listId.length) {
+      ("");
+    } else {
+      listDelete.forEach((id) => handleDeleteContact(id));
+      setListDelete([]);
+      fetchData();
+      toast.success("selected characters deleted successfully");
+    }
+    setOpenDelete(false);
   };
 
   const contacts = allContacts.filter(
@@ -49,7 +63,18 @@ export function ContactProvider({ children }) {
 
   return (
     <contactContext.Provider
-      value={{ contacts, isLoading, search, setSearch, handleDeleteContact }}
+      value={{
+        contacts,
+        search,
+        setSearch,
+        handleDeleteContact,
+        addNewContactHandler,
+        openDelete,
+        setOpenDelete,
+        deleteGroup,
+        listDelete,
+        setListDelete,
+      }}
     >
       {children}
     </contactContext.Provider>

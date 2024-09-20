@@ -12,26 +12,23 @@ import SingleDeleteContact from "../SingleDeleteContact/SingleDeleteContact";
 import TableButton from "../../ui/TableButton/TableButton";
 import { contactContext } from "../../context/ContactProvider";
 
-function SingleContact({
-  contact,
-  index,
-  // handleDeleteContact,
-  addNewContactHandler,
-  SetListDelete,
-  listDelete,
-  openAllDelete,
-}) {
+function SingleContact({contact,index}) {
   const [checked, setChecked] = useState(false);
   const { name, email, phone, id } = contact;
-  const { handleDeleteContact } = useContext(contactContext);
+  const {
+    handleDeleteContact,
+    setListDelete,
+    listDelete,
+    openDelete: openAllDelete,
+  } = useContext(contactContext);
 
   const handleChecked = (id) => {
     setChecked((check) => !check);
 
     if (!checked) {
-      SetListDelete((items) => [...items, id]);
+      setListDelete((items) => [...items, id]);
     } else {
-      SetListDelete(listDelete.filter((item) => +item.id === +id));
+      setListDelete(listDelete.filter((item) => +item.id === +id));
     }
   };
 
@@ -65,10 +62,7 @@ function SingleContact({
               name={name}
               handleDeleteContact={handleDeleteContact}
             />
-            <EditeButton
-              contact={contact}
-              addNewContactHandler={addNewContactHandler}
-            />
+            <EditeButton contact={contact} />
           </div>
         )}
       </td>
@@ -119,7 +113,7 @@ function SingleDeleteButton({ name, id, handleDeleteContact }) {
   );
 }
 
-function EditeButton({ contact, addNewContactHandler }) {
+function EditeButton({ contact }) {
   const [openEdit, setOpenEdit] = useState(false);
   return (
     <TableButton
@@ -130,7 +124,6 @@ function EditeButton({ contact, addNewContactHandler }) {
     >
       <AddNewContacts
         userData={contact}
-        addNewContactHandler={addNewContactHandler}
         open={openEdit}
         setOpen={setOpenEdit}
         text="Edit"

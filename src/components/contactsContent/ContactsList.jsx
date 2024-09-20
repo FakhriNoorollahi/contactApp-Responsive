@@ -6,12 +6,7 @@ import { tableHeaderTitle } from "../../utils/constantData.js";
 import { contactContext } from "../../context/ContactProvider.jsx";
 import Loader from "../../ui/Loader/Loader.jsx";
 
-function ContactsList({
-  addNewContactHandler,
-  openDelete,
-  listDelete,
-  SetListDelete,
-}) {
+function ContactsList({}) {
   const [headerStyle, setHeaderStyle] = useState({
     boxShadow: "none",
     backgroundColor: "white",
@@ -23,7 +18,8 @@ function ContactsList({
     setHeaderStyle(objectStyle);
   };
 
-  const { contacts, isLoading } = useContext(contactContext);
+  const { listDelete, setListDelete, contacts, isLoading, openDelete } =
+    useContext(contactContext);
 
   return (
     <div>
@@ -39,16 +35,7 @@ function ContactsList({
           </thead>
           <TableBody contacts={contacts} isLoading={isLoading}>
             {contacts.map((contact, index) => (
-              <SingleContact
-                key={contact.id}
-                contact={contact}
-                index={index}
-                // handleDeleteContact={handleDeleteContact}
-                addNewContactHandler={addNewContactHandler}
-                openAllDelete={openDelete}
-                listDelete={listDelete}
-                SetListDelete={SetListDelete}
-              />
+              <SingleContact key={contact.id} contact={contact} index={index} />
             ))}
           </TableBody>
         </table>

@@ -1,18 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Input from "../../ui/Input/Input.jsx";
 import { inputsData } from "../../utils/constantData.js";
 import styles from "./addNewContacts.module.css";
 import { checkEmail, checkName } from "../../utils/validation.js";
 import Modal from "../modal/Modal.jsx";
+import { contactContext } from "../../context/ContactProvider.jsx";
 
-function AddNewContacts({
-  addNewContactHandler,
-  userData,
-  open,
-  setOpen,
-  title,
-  text,
-}) {
+function AddNewContacts({ userData, open, setOpen, title, text }) {
   const [contactData, setContactData] = useState(
     userData || {
       name: "",
@@ -23,6 +17,8 @@ function AddNewContacts({
       id: "",
     }
   );
+
+  const { addNewContactHandler } = useContext(contactContext);
 
   const [errorName, setErrorName] = useState({ isTrue: false, message: "" });
   const [errorEmail, setErrorEmail] = useState({ isTrue: false, message: "" });
@@ -75,8 +71,11 @@ function AddNewContacts({
     setContactData((data) => ({
       ...data,
       [title]: value,
-      id: userData?.id || new Date().getTime(),
-      createdAt: userData?.createdAt || new Date().getTime(),
+      id: userData?.id || contactData?.id || `${new Date().getTime()}`,
+      createdAt:
+        userData?.createdAt ||
+        contactData?.createdAt ||
+        `${new Date().getTime()}`,
     }));
   };
 
