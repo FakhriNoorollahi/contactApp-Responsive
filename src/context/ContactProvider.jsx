@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 import {
   addContact,
   deleteContact,
@@ -7,17 +7,53 @@ import {
 } from "../services/httpReq";
 import toast from "react-hot-toast";
 
+const INIT_STATE = { isLoading: true, data: [], isError: false };
+
 export const contactContext = createContext();
+
+const contactsReducer = (state, { type, payload }) => {
+  switch (type) {
+    case "loading":
+      return { ...state, isLoading: true };
+    case "allContacts":
+      return { data: payload, isError: false, isLoading: false };
+    case "contacts/delete":
+      return { ...state, data: state.data.filter((c) => +c.id !== +payload) };
+    case "contacts/add":
+      return { ...state, data: [...state.data, payload] };
+    case "contacts/edit":
+      const contacts = [...state.data].filter((c) => +c.id !== +payload.id);
+      const newContacts = [...contacts, payload].sort(
+        (a, b) => a.createdAt - b.createdAt
+      );
+      return { ...state, data: newContacts };
+    case "reject":
+      return { data: [], isError: true, isLoading: false };
+    default:
+      throw Error("ERROR");
+  }
+};
 
 export function ContactProvider({ children }) {
   const [search, setSearch] = useState("");
-  const [allContacts, setAllContacts] = useState([]);
+  // const [allContacts, setAllContacts] = useState([]);
+  const [{ isLoading, data: allContacts }, dispatch] = useReducer(
+    contactsReducer,
+    INIT_STATE
+  );
   const [openDelete, setOpenDelete] = useState(false);
   const [listDelete, setListDelete] = useState([]);
 
   const fetchData = async () => {
-    const res = await getContacts();
-    setAllContacts(res.data);
+    dispatch({ type: "loading" });
+    try {
+      const res = await getContacts();
+      dispatch({ type: "allContacts", payload: res.data });
+    } catch (error) {
+      dispatch({ type: "reject", payload: "an error occured" });
+      toast.error(error.message);
+    }
+    // setAllContacts(res.data);
   };
 
   useEffect(() => {
@@ -25,24 +61,41 @@ export function ContactProvider({ children }) {
   }, []);
 
   const handleDeleteContact = async (id) => {
-    await deleteContact(id);
+    dispatch({ type: "loading" });
+    try {
+      await deleteContact(id);
+      dispatch({ type: "contacts/delete", payload: id });
+    } catch (error) {
+      dispatch({ type: "reject", payload: "an error occured" });
+      toast.error(error.message);
+    }
     fetchData();
   };
 
   const addNewContactHandler = async (data) => {
     const { id } = data;
     const isExist = allContacts.find((c) => +c.id === +id);
-    if (isExist) {
-      await editeContact(id, data);
-    } else {
-      await addContact(data);
+
+    dispatch({ type: "loading" });
+    try {
+      if (isExist) {
+        await editeContact(id, data);
+        dispatch({ type: "contacts/edit", payload: data });
+        toast.success("selected character edited successfully");
+      } else {
+        await addContact(data);
+        dispatch({ type: "contacts/add", payload: data });
+        toast.success("new charachter added successfully");
+      }
+    } catch (error) {
+      dispatch({ type: "reject", payload: "an error occured" });
+      toast.error(error.message);
     }
     fetchData();
   };
 
   const deleteGroup = async () => {
     const listId = listDelete;
-    console.log(listId);
 
     if (!listId.length) {
       ("");
@@ -66,6 +119,7 @@ export function ContactProvider({ children }) {
       value={{
         contacts,
         search,
+        isLoading,
         setSearch,
         handleDeleteContact,
         addNewContactHandler,

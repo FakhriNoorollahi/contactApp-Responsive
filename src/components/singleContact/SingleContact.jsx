@@ -9,10 +9,10 @@ import {
 import styles from "../contactsContent/contactsList.module.css";
 import toast from "react-hot-toast";
 import SingleDeleteContact from "../SingleDeleteContact/SingleDeleteContact";
-import TableButton from "../../ui/TableButton/TableButton";
+import Button from "../../ui/Button/Button";
 import { contactContext } from "../../context/ContactProvider";
 
-function SingleContact({contact,index}) {
+function SingleContact({ contact, index }) {
   const [checked, setChecked] = useState(false);
   const { name, email, phone, id } = contact;
   const {
@@ -75,7 +75,7 @@ export default SingleContact;
 function DetailButton({ contact }) {
   const [openDetail, setOpenDetail] = useState(false);
   return (
-    <TableButton
+    <Button
       className={styles.buttonItem}
       onClick={() => setOpenDetail(true)}
       open={openDetail}
@@ -86,14 +86,14 @@ function DetailButton({ contact }) {
         onClose={() => setOpenDetail(false)}
         contact={contact}
       />
-    </TableButton>
+    </Button>
   );
 }
 
 function SingleDeleteButton({ name, id, handleDeleteContact }) {
   const [openDelete, setOpenDelete] = useState(false);
   return (
-    <TableButton
+    <Button
       className={styles.buttonItem}
       open={openDelete}
       onClick={() => setOpenDelete(true)}
@@ -109,14 +109,14 @@ function SingleDeleteButton({ name, id, handleDeleteContact }) {
         }}
         name={name}
       />
-    </TableButton>
+    </Button>
   );
 }
 
 function EditeButton({ contact }) {
   const [openEdit, setOpenEdit] = useState(false);
   return (
-    <TableButton
+    <Button
       className={styles.buttonItem}
       open={openEdit}
       onClick={() => setOpenEdit(true)}
@@ -129,6 +129,6 @@ function EditeButton({ contact }) {
         text="Edit"
         title={`Edite information ${contact.name}`}
       />
-    </TableButton>
+    </Button>
   );
 }

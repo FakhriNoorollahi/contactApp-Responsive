@@ -1,7 +1,7 @@
 import ContactsHeader from "./components/contactsHeader/ContactsHeader";
 import ContactsList from "./components/contactsContent/ContactsList";
 import Layout from "./components/Layout/Layout";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { ContactProvider } from "./context/ContactProvider";
 
 function App() {

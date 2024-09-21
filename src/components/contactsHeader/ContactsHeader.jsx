@@ -2,49 +2,66 @@ import React, { useContext, useState } from "react";
 import styles from "./contactsHeader.module.css";
 import { CiSearch } from "react-icons/ci";
 import AddNewContacts from "../AddNewContacts/AddNewContacts";
-import TableButton from "../../ui/TableButton/TableButton";
+import Button from "../../ui/Button/Button";
 import { contactContext } from "../../context/ContactProvider";
 
 function ContactsHeader() {
   const { openDelete, setOpenDelete, deleteGroup, search, setSearch } =
     useContext(contactContext);
-  const [open, setOpen] = useState(false);
 
   return (
     <div className={styles.header}>
-      <div className={styles.search}>
-        <CiSearch className={styles.searchIcon} />
-        <input
-          type="text"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="John Doe/john.doe@gmai.com"
-        />
-      </div>
-      <div className={styles.buttons}>
-        <TableButton
-          className={styles.button}
-          open={open}
-          onClick={() => setOpen(true)}
-          text="Add Contact"
-        >
-          <AddNewContacts
-            userData={null}
-            setOpen={setOpen}
-            open={open}
-            text="Add Contacts"
-            title="Add New Contact"
-          />
-        </TableButton>
-        <TableButton
-          className={styles.button}
-          open={false}
-          text={openDelete ? "Delete All" : "Group deletion"}
-          onClick={openDelete ? () => deleteGroup() : () => setOpenDelete(true)}
-        />
-      </div>
+      <SearchInput search={search} setSearch={setSearch} />
+      <HeaderButtons
+        openDelete={openDelete}
+        setOpenDelete={setOpenDelete}
+        deleteGroup={deleteGroup}
+      />
     </div>
   );
 }
 
 export default ContactsHeader;
+
+function SearchInput({ search, setSearch }) {
+  return (
+    <div className={styles.search}>
+      <CiSearch className={styles.searchIcon} />
+      <input
+        type="text"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder="John Doe/john.doe@gmai.com"
+      />
+    </div>
+  );
+}
+
+function HeaderButtons({ openDelete, setOpenDelete, deleteGroup }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className={styles.buttons}>
+      <Button
+        className={styles.button}
+        open={open}
+        onClick={() => setOpen(true)}
+        text="Add Contact"
+      >
+        <AddNewContacts
+          userData={null}
+          setOpen={setOpen}
+          open={open}
+          text="Add Contacts"
+          title="Add New Contact"
+        />
+      </Button>
+      <Button
+        className={styles.button}
+        open={false}
+        text={openDelete ? "Delete All" : "Group deletion"}
+        onClick={openDelete ? () => deleteGroup() : () => setOpenDelete(true)}
+      />
+    </div>
+  );
+}

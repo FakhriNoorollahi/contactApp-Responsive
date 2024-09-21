@@ -19,7 +19,6 @@ function AddNewContacts({ userData, open, setOpen, title, text }) {
   );
 
   const { addNewContactHandler } = useContext(contactContext);
-
   const [errorName, setErrorName] = useState({ isTrue: false, message: "" });
   const [errorEmail, setErrorEmail] = useState({ isTrue: false, message: "" });
 

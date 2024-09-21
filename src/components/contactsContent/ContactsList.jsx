@@ -7,6 +7,7 @@ import { contactContext } from "../../context/ContactProvider.jsx";
 import Loader from "../../ui/Loader/Loader.jsx";
 
 function ContactsList({}) {
+  const { contacts, isLoading } = useContext(contactContext);
   const [headerStyle, setHeaderStyle] = useState({
     boxShadow: "none",
     backgroundColor: "white",
@@ -18,21 +19,12 @@ function ContactsList({}) {
     setHeaderStyle(objectStyle);
   };
 
-  const { listDelete, setListDelete, contacts, isLoading, openDelete } =
-    useContext(contactContext);
-
   return (
     <div>
       <p className={styles.title}>List of Contacts ({contacts.length})</p>
       <div className={styles.tableContainer} onScroll={handleScroll}>
         <table className={styles.table}>
-          <thead style={{ ...headerStyle }}>
-            <tr>
-              {tableHeaderTitle.map((item) => (
-                <th key={item.id}>{item.title}</th>
-              ))}
-            </tr>
-          </thead>
+          <TableHeader headerStyle={headerStyle} />
           <TableBody contacts={contacts} isLoading={isLoading}>
             {contacts.map((contact, index) => (
               <SingleContact key={contact.id} contact={contact} index={index} />
@@ -45,6 +37,18 @@ function ContactsList({}) {
 }
 
 export default ContactsList;
+
+function TableHeader({ headerStyle }) {
+  return (
+    <thead style={{ ...headerStyle }}>
+      <tr>
+        {tableHeaderTitle.map((item) => (
+          <th key={item.id}>{item.title}</th>
+        ))}
+      </tr>
+    </thead>
+  );
+}
 
 function TableBody({ contacts, isLoading, children }) {
   return (

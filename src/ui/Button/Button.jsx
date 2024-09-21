@@ -1,6 +1,6 @@
 import React from "react";
 
-function TableButton({ open, onClick, text, children, className }) {
+function Button({ open, onClick, text, children, className }) {
   return (
     <>
       <button onClick={onClick} className={className}>
@@ -11,4 +11,4 @@ function TableButton({ open, onClick, text, children, className }) {
   );
 }
 
-export default TableButton;
+export default Button;
