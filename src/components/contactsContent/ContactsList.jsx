@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import styles from "./contactsList.module.css";
-import SingleContact from "../singleContact/singleContact";
+import SingleContact from "../singleContact/SingleContact.jsx";
 import { checkHeaderTbale } from "../../utils/scrollHeaderTable";
 import { tableHeaderTitle } from "../../utils/constantData.js";
 import { contactContext } from "../../context/ContactProvider.jsx";
